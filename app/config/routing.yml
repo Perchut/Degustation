@@ -1,0 +1,7 @@
+degustation_blog:
+    resource: "@DegustationBlogBundle/Resources/config/routing.yml"
+    prefix:   /blog
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

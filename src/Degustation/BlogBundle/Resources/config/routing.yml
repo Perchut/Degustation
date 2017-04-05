@@ -1,0 +1,33 @@
+degustation_blog_home:
+    path:     /{page}
+    defaults:
+      _controller: DegustationBlogBundle:Article:index
+      page:        1
+    requirements:
+      page: \d*
+
+degustation_blog_view:
+    path:     /article/{id}
+    defaults:
+      _controller: DegustationBlogBundle:Article:view
+    requirements:
+      id: \d+
+
+degustation_blog_add:
+    path:     /ajout
+    defaults:
+      _controller: DegustationBlogBundle:Article:add
+
+degustation_blog_edit:
+    path:     /modification/{id}
+    defaults:
+      _controller: DegustationBlogBundle:Article:edit
+    requirements:
+      id: \d+
+
+degustation_blog_delete:
+    path:     suppression/{id}
+    defaults:
+      _controller: DegustationBlogBundle:Article:delete
+    requirements:
+      id: \d+
