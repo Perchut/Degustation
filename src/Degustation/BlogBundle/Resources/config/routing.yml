@@ -2,7 +2,7 @@ degustation_blog_home:
     path:     /{page}
     defaults:
       _controller: DegustationBlogBundle:Article:index
-      page:        1
+      page: 1
     requirements:
       page: \d*
 

@@ -8,12 +8,22 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ArticleController extends Controller
 {
-    public function indexAction()
+    public function indexAction($page)
     {
         if ($page < 1)
         {
         	throw new Exception('Page "'.$page.'" inexistante.');
         }
+
+        $listAdverts = array(
+			array('id' => 2, 'title' => 'Recherche développeur Symfony', 'author' => 'Perchut'),
+			array('id' => 5, 'title' => 'Mission de webmaster', 'author' => 'Perchut'),
+			array('id' => 9, 'title' => 'Offre de stage webdesigner', 'author' => 'Perchut')
+		);
+
+        return $this->render('DegustationBlogBundle:Article:index.html.twig', array(
+        	'listAdverts' => $listAdverts
+        ));
     }
 
     public function viewAction($id)
@@ -48,5 +58,19 @@ class ArticleController extends Controller
 	public function deleteAction($id)
 	{
 		return $this->render('DegustationBlogBundle:Article:delete.html.twig');
+	}
+
+
+	public function menuAction()
+	{
+		$listAdverts = array(
+			array('id' => 2, 'title' => 'Recherche développeur Symfony', 'author' => 'Perchut'),
+			array('id' => 5, 'title' => 'Mission de webmaster', 'author' => 'Perchut'),
+			array('id' => 9, 'title' => 'Offre de stage webdesigner', 'author' => 'Perchut')
+		);
+
+		return $this->render('DegustationBlogBundle:Article:menu.html.twig', array(
+			'listAdverts' => $listAdverts
+		));
 	}
 }
