@@ -6,18 +6,21 @@
 
 {% block ocplatform_body %}
 
-  <h2>Liste des articles</h2>
-
+  <!-- <h2>Liste des articles</h2>
+ -->
   <ul>
     {% for advert in listAdverts %}
-      <li>
+      <li class="well">
+        {% if advert.pic is defined %}
+          <img src="{{ advert.pic }}" />
+        {% endif %}
         <a href="{{ path('degustation_blog_view', {'id': advert.id}) }}">
           {{ advert.title }}
         </a>
         par {{ advert.author }},
       </li>
     {% else %}
-      <li>Pas (encore !) d'annonces</li>
+      <li>Pas (encore !) d'articles</li>
     {% endfor %}
   </ul>
 

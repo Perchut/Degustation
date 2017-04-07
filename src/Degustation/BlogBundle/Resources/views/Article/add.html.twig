@@ -1,0 +1,12 @@
+{% extends "DegustationBlogBundle::layout.html.twig" %}
+
+{% block body %}
+  <h2>Proposer un article</h2>
+
+  {{ include("DegustationBlogBundle:Article:form.html.twig") }}
+
+  <p>
+    Attention : cette article sera soumis à la validation du web;aster avant publication.
+  </p>
+
+{% endblock %}

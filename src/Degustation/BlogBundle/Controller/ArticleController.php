@@ -17,7 +17,7 @@ class ArticleController extends Controller
 
         $listAdverts = array(
 			array('id' => 2, 'title' => 'Recherche développeur Symfony', 'author' => 'Perchut'),
-			array('id' => 5, 'title' => 'Mission de webmaster', 'author' => 'Perchut'),
+			array('id' => 5, 'title' => 'Mission de webmaster', 'author' => 'Perchut', 'pic' => 'https://www.google.fr/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'),
 			array('id' => 9, 'title' => 'Offre de stage webdesigner', 'author' => 'Perchut')
 		);
 
