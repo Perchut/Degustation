@@ -8,11 +8,11 @@
 
   <!-- <h2>Liste des articles</h2>
  -->
-  <ul>
+  <ul style="list-style-type: none">
     {% for advert in listAdverts %}
       <li class="well">
         {% if advert.pic is defined %}
-          <img src="{{ advert.pic }}" />
+          <img src="{{ advert.pic }}" width="100%" /><br />
         {% endif %}
         <a href="{{ path('degustation_blog_view', {'id': advert.id}) }}">
           {{ advert.title }}
