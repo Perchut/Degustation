@@ -5,6 +5,7 @@ namespace Degustation\BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Degustation\BlogBundle\Entity\Article;
 
 class ArticleController extends Controller
 {
@@ -28,13 +29,49 @@ class ArticleController extends Controller
 
     public function viewAction($id)
 	{
+
+		// On récupère le repository
+	    $repository = $this->getDoctrine()
+	      ->getManager()
+	      ->getRepository('DegustationBlogBundle:Article')
+	    ;
+
+	    // On récupère l'entité correspondante à l'id $id
+	    $article = $repository->find($id);
+
+	    // $advert est donc une instance de OC\PlatformBundle\Entity\Advert
+	    // ou null si l'id $id  n'existe pas, d'où ce if :
+	    if (null === $article) {
+	      throw new NotFoundHttpException("L'article d'id ".$id." n'existe pas.");
+	    }
+
 		return $this->render('DegustationBlogBundle:Article:view.html.twig', array(
-			'id' => $id
+			'article' => $article
 		));
 	}
 
 	public function addAction(Request $request)
 	{
+
+		// Création de l'entité
+		$article = new Article();
+		$article->setTitle('Recherche développeur Symfony.');
+		$article->setAuthor('Alexandre');
+		$article->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
+		$article->setStatus('New');
+		// On peut ne pas définir ni la date ni la publication,
+		// car ces attributs sont définis automatiquement dans le constructeur
+
+		// On récupère l'EntityManager
+		$em = $this->getDoctrine()->getManager();
+
+		// Étape 1 : On « persiste » l'entité
+		$em->persist($article);
+
+		// Étape 2 : On « flush » tout ce qui a été persisté avant
+		$em->flush();
+
+
 		if($request->isMethod('POST'))
 		{
 			$request->getSession()->getFlashBag()->add('notice', 'Article bien enregistré.');

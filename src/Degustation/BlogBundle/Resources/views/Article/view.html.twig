@@ -1,21 +1,23 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Affichage de l'annonce {{ id }}</title>
-  </head>
-  <body>
-    <h1>Affichage de l'annonce n°{{ id }} !</h1>
+{% extends "DegustationBlogBundle::layout.html.twig" %}
 
-    <div>
-      {# On affiche tous les messages flash dont le nom est « info » #}
-      {% for message in app.session.flashbag.get('info') %}
-        <p>Message flash : {{ message }}</p>
-      {% endfor %}
-    </div>
+{% block title %}
+  {{ article.title }} - {{ parent() }}
+{% endblock %}
 
-    <p>
-      Ici nous pourrons lire l'annonce ayant comme id : {{ id }}<br />
-      Mais pour l'instant, nous ne savons pas encore le faire, cela viendra !
-    </p>
-  </body>
-</html>
+{% block ocplatform_body %}
+
+  <h1>Affichage de l'annonce n°{{ article.id }} !</h1>
+
+  <div>
+    {# On affiche tous les messages flash dont le nom est « info » #}
+    {% for message in app.session.flashbag.get('info') %}
+      <p>Message flash : {{ message }}</p>
+    {% endfor %}
+  </div>
+
+  <p>
+    Ici nous pourrons lire l'annonce ayant comme titre : {{ article.title }}<br />
+    {{ article.content }}
+  </p>
+
+{% endblock %}

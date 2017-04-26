@@ -10,4 +10,12 @@ namespace Degustation\BlogBundle\Repository;
  */
 class ArticleRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function myFindAll()
+	{
+		$queryBuilder = $this->createQueryBuilder('a');
+	    $query = $queryBuilder->getQuery();
+	    $results = $query->getResult();
+
+	    return $results;
+	}
 }

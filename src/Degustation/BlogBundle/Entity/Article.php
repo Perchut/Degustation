@@ -52,13 +52,6 @@ class Article
     /**
      * @var string
      *
-     * @ORM\Column(name="pic", type="string", length=255, nullable=true)
-     */
-    private $pic;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="status", type="string", length=255)
      */
     private $status;
@@ -174,30 +167,6 @@ class Article
     public function getContent()
     {
         return $this->content;
-    }
-
-    /**
-     * Set pic
-     *
-     * @param string $pic
-     *
-     * @return Article
-     */
-    public function setPic($pic)
-    {
-        $this->pic = $pic;
-
-        return $this;
-    }
-
-    /**
-     * Get pic
-     *
-     * @return string
-     */
-    public function getPic()
-    {
-        return $this->pic;
     }
 
     /**
