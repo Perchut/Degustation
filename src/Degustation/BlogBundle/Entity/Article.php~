@@ -266,39 +266,4 @@ class Article
     {
         return $this->categories;
     }
-
-    /**
-     * Add commentaire
-     *
-     * @param \Degustation\BlogBundle\Entity\Commentaire $commentaire
-     *
-     * @return Article
-     */
-    public function addCommentaire(\Degustation\BlogBundle\Entity\Commentaire $commentaire)
-    {
-        $this->commentaires[] = $commentaire;
-        $commentaire->setArticle($this);
-
-        return $this;
-    }
-
-    /**
-     * Remove commentaire
-     *
-     * @param \Degustation\BlogBundle\Entity\Commentaire $commentaire
-     */
-    public function removeCommentaire(\Degustation\BlogBundle\Entity\Commentaire $commentaire)
-    {
-        $this->commentaires->removeElement($commentaire);
-    }
-
-    /**
-     * Get commentaires
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCommentaires()
-    {
-        return $this->commentaires;
-    }
 }
