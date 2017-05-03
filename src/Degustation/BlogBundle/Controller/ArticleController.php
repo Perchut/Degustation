@@ -6,6 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Degustation\BlogBundle\Entity\Article;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ArticleController extends Controller
 {
@@ -17,9 +23,9 @@ class ArticleController extends Controller
         }
 
         $listAdverts = array(
-			array('id' => 2, 'title' => 'Recherche développeur Symfony', 'author' => 'Perchut'),
-			array('id' => 5, 'title' => 'Mission de webmaster', 'author' => 'Perchut', 'pic' => 'https://www.google.fr/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'),
-			array('id' => 9, 'title' => 'Offre de stage webdesigner', 'author' => 'Perchut')
+			array('id' => 2, 'title' => "Les grancs blancs d'Alsace", 'author' => 'Perchut'),
+			array('id' => 5, 'title' => 'Les vins blancs de la vallée du Rhône', 'author' => 'Perchut', 'pic' => 'http://www.lechai.fr/media/wysiwyg/edv-portfolio.jpg'),
+			array('id' => 9, 'title' => 'Les vins rouges de la vallée du Rhône', 'author' => 'Perchut')
 		);
 
         return $this->render('DegustationBlogBundle:Article:index.html.twig', array(
@@ -55,30 +61,49 @@ class ArticleController extends Controller
 
 		// Création de l'entité
 		$article = new Article();
-		$article->setTitle('Recherche développeur Symfony.');
-		$article->setAuthor('Alexandre');
-		$article->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
-		$article->setStatus('New');
-		// On peut ne pas définir ni la date ni la publication,
-		// car ces attributs sont définis automatiquement dans le constructeur
 
-		// On récupère l'EntityManager
-		$em = $this->getDoctrine()->getManager();
+		// On crée le FormBuilder grâce au service form factory
+		$formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $article);
 
-		// Étape 1 : On « persiste » l'entité
-		$em->persist($article);
+		// On ajoute les champs de l'entité que l'on veut à notre formulaire
+	    $formBuilder
+	      ->add('date',      DateType::class)
+	      ->add('title',     TextType::class)
+	      ->add('content',   TextareaType::class)
+	      ->add('author',    TextType::class)
+	      ->add('status',	 TextType::class)
+	      ->add('save',      SubmitType::class)
+	    ;
 
-		// Étape 2 : On « flush » tout ce qui a été persisté avant
-		$em->flush();
-
+	    // À partir du formBuilder, on génère le formulaire
+    	$form = $formBuilder->getForm();
 
 		if($request->isMethod('POST'))
 		{
-			$request->getSession()->getFlashBag()->add('notice', 'Article bien enregistré.');
-			return $this->redirectToRoute('degustation_blog_view', array('id' => 5));
+			$form->handleRequest($request);
+
+			if ($request->isMethod('POST'))
+			{
+				// On récupère l'EntityManager
+				$em = $this->getDoctrine()->getManager();
+
+				// Étape 1 : On « persiste » l'entité
+				$em->persist($article);
+
+				// Étape 2 : On « flush » tout ce qui a été persisté avant
+				$em->flush();
+
+				$request->getSession()->getFlashBag()->add('notice', 'Article bien enregistré.');
+
+				return $this->redirectToRoute('degustation_blog_view', array('id' => $advert->getId()));
+			}
 		}
 
-		return $this->render('DegustationBlogBundle:Article:add.html.twig');
+		// On passe la méthode createView() du formulaire à la vue
+	    // afin qu'elle puisse afficher le formulaire toute seule
+	    return $this->render('DegustationBlogBundle:Article:add.html.twig', array(
+	      'form' => $form->createView(),
+	    ));
 	}
 
 	public function editAction($id, Request $request)
@@ -101,9 +126,9 @@ class ArticleController extends Controller
 	public function menuAction()
 	{
 		$listAdverts = array(
-			array('id' => 2, 'title' => 'Recherche développeur Symfony', 'author' => 'Perchut'),
-			array('id' => 5, 'title' => 'Mission de webmaster', 'author' => 'Perchut'),
-			array('id' => 9, 'title' => 'Offre de stage webdesigner', 'author' => 'Perchut')
+			array('id' => 2, 'title' => "Les grancs blancs d'Alsace", 'author' => 'Perchut'),
+			array('id' => 5, 'title' => 'Les vins blancs de la vallée du Rhône', 'author' => 'Perchut'),
+			array('id' => 9, 'title' => 'Les vins rouges de la vallée du Rhône', 'author' => 'Perchut')
 		);
 
 		return $this->render('DegustationBlogBundle:Article:menu.html.twig', array(
