@@ -56,13 +56,6 @@ class Article
     private $content;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="status", type="string", length=255)
-     */
-    private $status;
-
-    /**
     * @ORM\ManyToMany(targetEntity="Degustation\BlogBundle\Entity\Categorie", cascade={"persist"})
     */
     private $categories;
@@ -72,6 +65,10 @@ class Article
     */
     private $commentaires;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Degustation\BlogBundle\Entity\Statut")
+     */
+    private $status;
 
     public function __construct()
     {
@@ -187,30 +184,6 @@ class Article
     }
 
     /**
-     * Set status
-     *
-     * @param string $status
-     *
-     * @return Article
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
      * Set image
      *
      * @param \Degustation\BlogBundle\Entity\Image $image
@@ -301,5 +274,29 @@ class Article
     public function getCommentaires()
     {
         return $this->commentaires;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Degustation\BlogBundle\Entity\Statut $status
+     *
+     * @return Article
+     */
+    public function setStatus(\Degustation\BlogBundle\Entity\Statut $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Degustation\BlogBundle\Entity\Statut
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
