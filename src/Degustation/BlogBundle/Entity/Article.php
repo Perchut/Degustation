@@ -70,6 +70,12 @@ class Article
      */
     private $status;
 
+    /**
+     * @ORM\Column(name="nbComments", type="integer")
+     */
+    private $nbComments = 0;
+
+
     public function __construct()
     {
         $this->date = new \Datetime();
@@ -298,5 +304,39 @@ class Article
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public function increaseComment()
+    {
+        $this->nbComments++;
+    }
+
+    public function decreaseComment()
+    {
+       $this->nbComments--;
+    }
+
+    /**
+     * Set nbComments
+     *
+     * @param integer $nbComments
+     *
+     * @return Article
+     */
+    public function setNbComments($nbComments)
+    {
+        $this->nbComments = $nbComments;
+
+        return $this;
+    }
+
+    /**
+     * Get nbComments
+     *
+     * @return integer
+     */
+    public function getNbComments()
+    {
+        return $this->nbComments;
     }
 }

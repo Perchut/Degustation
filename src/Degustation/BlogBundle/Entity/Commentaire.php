@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="commentaire")
  * @ORM\Entity(repositoryClass="Degustation\BlogBundle\Repository\CommentaireRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Commentaire
 {
@@ -158,5 +159,21 @@ class Commentaire
     public function getArticle()
     {
         return $this->article;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function increase()
+    {
+        $this->getArticle()->increaseComment();
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function decrease()
+    {
+        $this->getArticle()->decreaseComment();
     }
 }

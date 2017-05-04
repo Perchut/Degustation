@@ -70,6 +70,12 @@ class Article
      */
     private $status;
 
+    /**
+     * @ORM\Column(name="nbComments", type="integer")
+     */
+    private $nbComments = 0;
+
+
     public function __construct()
     {
         $this->date = new \Datetime();
@@ -274,5 +280,39 @@ class Article
     public function getCommentaires()
     {
         return $this->commentaires;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Degustation\BlogBundle\Entity\Statut $status
+     *
+     * @return Article
+     */
+    public function setStatus(\Degustation\BlogBundle\Entity\Statut $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Degustation\BlogBundle\Entity\Statut
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function increaseComment()
+    {
+        $this->nbComments++;
+    }
+
+    public function decreaseComment()
+    {
+       $this->nbComments--;
     }
 }
