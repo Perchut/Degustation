@@ -1,8 +1,8 @@
 <ul class="nav nav-pills nav-stacked">
-  {% for advert in listAdverts %}
+  {% for article in listArticles %}
     <li>
-      <a href="{{ path('degustation_blog_view', {'id': advert.id}) }}">
-        {{ advert.title }}
+      <a href="{{ path('degustation_blog_view', {'id': article.id}) }}">
+        {{ article.title }}
       </a>
     </li>
   {% endfor %}

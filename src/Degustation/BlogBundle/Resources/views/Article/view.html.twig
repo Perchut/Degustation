@@ -6,7 +6,7 @@
 
 {% block ocplatform_body %}
 
-  <h1>Affichage de l'annonce n°{{ article.id }} !</h1>
+  <h1>{{ article.title }} !</h1>
 
   <div>
     {# On affiche tous les messages flash dont le nom est « info » #}
@@ -16,8 +16,11 @@
   </div>
 
   <p>
-    Ici nous pourrons lire l'annonce ayant comme titre : {{ article.title }}<br />
-    {{ article.content }}
+    {% if article.image is defined %}
+      <img src="{{ asset(article.image.webPath) }}" alt="{{ article.image.alt }}" /><br />
+    {% endif %}
+    {{ article.content }}<br />
+    Ecrit par {{ article.author }}
   </p>
 
 {% endblock %}

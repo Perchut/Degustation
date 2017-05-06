@@ -9,15 +9,15 @@
   <!-- <h2>Liste des articles</h2>
  -->
   <ul style="list-style-type: none">
-    {% for advert in listAdverts %}
+    {% for article in listArticles %}
       <li class="well">
-        {% if advert.pic is defined %}
-          <img src="{{ advert.pic }}" width="100%" /><br />
+        {% if article.image is defined %}
+          <img src="{{ asset(article.image.webPath) }}" /><br />
         {% endif %}
-        <a href="{{ path('degustation_blog_view', {'id': advert.id}) }}">
-          {{ advert.title }}
+        <a href="{{ path('degustation_blog_view', {'id': article.id}) }}">
+          {{ article.title }}
         </a>
-        par {{ advert.author }},
+        par {{ article.author }},
       </li>
     {% else %}
       <li>Pas (encore !) d'articles</li>

@@ -44,7 +44,7 @@ class Article
     private $author;
 
     /**
-    * @ORM\OneToOne(targetEntity="Degustation\BlogBundle\Entity\Image", cascade={"persist"})
+    * @ORM\OneToOne(targetEntity="Degustation\BlogBundle\Entity\Image", cascade={"persist", "remove"})
     */
     private $image;
 

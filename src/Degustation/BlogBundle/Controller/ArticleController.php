@@ -18,14 +18,14 @@ class ArticleController extends Controller
         	throw new Exception('Page "'.$page.'" inexistante.');
         }
 
-        $listAdverts = array(
-			array('id' => 2, 'title' => "Les grancs blancs d'Alsace", 'author' => 'Perchut'),
-			array('id' => 5, 'title' => 'Les vins blancs de la vallée du Rhône', 'author' => 'Perchut', 'pic' => 'http://www.lechai.fr/media/wysiwyg/edv-portfolio.jpg'),
-			array('id' => 9, 'title' => 'Les vins rouges de la vallée du Rhône', 'author' => 'Perchut')
-		);
+	    $repository = $this->getDoctrine()
+	      ->getManager()
+	      ->getRepository('DegustationBlogBundle:Article')
+	    ;
+	    $listArticles = $repository->findAll();
 
         return $this->render('DegustationBlogBundle:Article:index.html.twig', array(
-        	'listAdverts' => $listAdverts
+        	'listArticles' => $listArticles
         ));
     }
 
@@ -60,9 +60,6 @@ class ArticleController extends Controller
 
 		if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
 		{
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($article);
-
 			$repository = $this->getDoctrine()->getManager()->getRepository('DegustationBlogBundle:Statut');
 
 			if ($form->get('publish')->getData() == true)
@@ -76,6 +73,8 @@ class ArticleController extends Controller
 
 			$article->setStatus($status);
 
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($article);
 			$em->flush();
 
 			$request->getSession()->getFlashBag()->add('notice', 'Article bien enregistré.');
@@ -109,14 +108,14 @@ class ArticleController extends Controller
 
 	public function menuAction()
 	{
-		$listAdverts = array(
-			array('id' => 2, 'title' => "Les grancs blancs d'Alsace", 'author' => 'Perchut'),
-			array('id' => 5, 'title' => 'Les vins blancs de la vallée du Rhône', 'author' => 'Perchut'),
-			array('id' => 9, 'title' => 'Les vins rouges de la vallée du Rhône', 'author' => 'Perchut')
-		);
+		$repository = $this->getDoctrine()
+	      ->getManager()
+	      ->getRepository('DegustationBlogBundle:Article')
+	    ;
+	    $listArticles = $repository->findAll();
 
 		return $this->render('DegustationBlogBundle:Article:menu.html.twig', array(
-			'listAdverts' => $listAdverts
+			'listArticles' => $listArticles
 		));
 	}
 }

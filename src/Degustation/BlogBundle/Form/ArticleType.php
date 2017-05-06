@@ -4,6 +4,8 @@ namespace Degustation\BlogBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -19,11 +21,21 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date',       DateTimeType::class)
             ->add('title',      TextType::class)
             ->add('author',     TextType::class)
             ->add('content',    TextareaType::class)
-            ->add('publish',    CheckboxType::class, array('label' => "Soumettre aux modérateurs pour publication ?", 'mapped' => false, 'required' => false))
+            ->add('categories', EntityType::class, array(
+                'class' => 'DegustationBlogBundle:Categorie',
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
+            ))
+            ->add('image',      ImageType::class)
+            ->add('publish',    CheckboxType::class, array(
+                'label' => "Soumettre aux modérateurs pour publication ?",
+                'mapped' => false,
+                'required' => false
+            ))
             ->add('save',       SubmitType::class);
     }
     

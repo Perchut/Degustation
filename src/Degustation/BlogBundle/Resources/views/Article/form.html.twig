@@ -1,5 +1,55 @@
-<h3>Formulaire d'article</h3>
+<h3>Remplissez le formulaire pour proposer votre article</h3>
 
-<div class="well">
-	{{ form(form) }}
+<div>
+	{{ form_start(form, {'attr': {'class': 'form-article'}}) }}
+
+	{{ form_errors(form) }}
+
+	{# Titre #}
+	<div>
+		{# Génération du label. #}
+	    {{ form_label(form.title, "Titre de l'article", {'label_attr': {'class': 'titre_annonce'}}) }}
+
+    	{# Affichage des erreurs pour ce champ précis. #}
+    	{{ form_errors(form.title) }}
+
+    	<div>
+      		{# Génération de l'input. #}
+      		{{ form_widget(form.title, {'attr': {'class': 'titre_input'}}) }}
+    	</div>
+	</div>
+
+	{# Auteur #}
+	<div>
+		{{ form_label(form.author, "Auteur de l'article", {'label_attr': {'class': 'auteur_article'}}) }}
+		{{ form_errors(form.author) }}
+		<div>
+			{{ form_widget(form.author, {'attr': {'class': 'auteur_input'}}) }}
+		</div>
+	</div>	
+
+	{# Contenu #}
+	<div>
+		{{ form_label(form.content, "Contenu de l'article", {'label_attr': {'class': 'contenu_article'}}) }}
+		{{ form_errors(form.content) }}
+		<div>
+			{{ form_widget(form.content, {'attr': {'class': 'contenu_input'}}) }}
+		</div>
+	</div>	
+
+
+	{{ form_row(form.categories) }}
+	{{ form_row(form.image) }}
+	{{ form_row(form.publish) }}
+
+	{# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+	{{ form_widget(form.save, {'attr': {'class': 'bouton_save'}}) }}
+
+	{# Génération automatique des champs pas encore écrits.
+	Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+	et tous les champs cachés (type « hidden »). #}
+	{{ form_rest(form) }}
+
+	{# Fermeture de la balise <form> du formulaire HTML #}
+	{{ form_end(form) }}
 </div>
