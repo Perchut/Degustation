@@ -12,12 +12,13 @@
     {% for article in listArticles %}
       <li class="well">
         {% if article.image is defined %}
-          <img src="{{ asset(article.image.webPath) }}" /><br />
+          <img src="{{ asset(article.image.webPath) }}" width="150px" />
         {% endif %}
         <a href="{{ path('degustation_blog_view', {'id': article.id}) }}">
           {{ article.title }}
         </a>
-        par {{ article.author }},
+        par {{ article.author }}, 
+        publié le {{ article.date|date('d/m/Y à H:i') }}
       </li>
     {% else %}
       <li>Pas (encore !) d'articles</li>
