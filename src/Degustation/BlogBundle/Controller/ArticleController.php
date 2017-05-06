@@ -6,12 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Degustation\BlogBundle\Entity\Article;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Degustation\BlogBundle\Form\ArticleType;
+
 
 class ArticleController extends Controller
 {
@@ -59,44 +55,32 @@ class ArticleController extends Controller
 	public function addAction(Request $request)
 	{
 
-		// Création de l'entité
 		$article = new Article();
+    	$form = $this->get('form.factory')->create(ArticleType::class, $article);
 
-		// On crée le FormBuilder grâce au service form factory
-		$formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $article);
-
-		// On ajoute les champs de l'entité que l'on veut à notre formulaire
-	    $formBuilder
-	      ->add('date',      DateType::class)
-	      ->add('title',     TextType::class)
-	      ->add('content',   TextareaType::class)
-	      ->add('author',    TextType::class)
-	      ->add('status',	 TextType::class)
-	      ->add('save',      SubmitType::class)
-	    ;
-
-	    // À partir du formBuilder, on génère le formulaire
-    	$form = $formBuilder->getForm();
-
-		if($request->isMethod('POST'))
+		if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
 		{
-			$form->handleRequest($request);
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($article);
 
-			if ($request->isMethod('POST'))
+			$repository = $this->getDoctrine()->getManager()->getRepository('DegustationBlogBundle:Statut');
+
+			if ($form->get('publish')->getData() == true)
 			{
-				// On récupère l'EntityManager
-				$em = $this->getDoctrine()->getManager();
-
-				// Étape 1 : On « persiste » l'entité
-				$em->persist($article);
-
-				// Étape 2 : On « flush » tout ce qui a été persisté avant
-				$em->flush();
-
-				$request->getSession()->getFlashBag()->add('notice', 'Article bien enregistré.');
-
-				return $this->redirectToRoute('degustation_blog_view', array('id' => $advert->getId()));
+				$status = $repository->findOneByStatus('Soumis');
 			}
+			else 
+			{
+				$status = $repository->findOneByStatus('Brouillon');
+			}
+
+			$article->setStatus($status);
+
+			$em->flush();
+
+			$request->getSession()->getFlashBag()->add('notice', 'Article bien enregistré.');
+
+			return $this->redirectToRoute('degustation_blog_view', array('id' => $article->getId()));
 		}
 
 		// On passe la méthode createView() du formulaire à la vue
