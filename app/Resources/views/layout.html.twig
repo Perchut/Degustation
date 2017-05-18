@@ -31,7 +31,9 @@
         <h3>Le Blog</h3>
         <ul class="nav nav-pills nav-stacked">
           <li><a href="{{ path('degustation_blog_home') }}">Accueil</a></li>
-          <li><a href="{{ path('degustation_blog_add') }}">Proposer un article</a></li>
+          {% if is_granted('ROLE_USER') %}
+            <li><a href="{{ path('degustation_blog_add') }}">Proposer un article</a></li>
+          {% endif %}
         </ul>
 
         <h4>Derniers articles</h4>

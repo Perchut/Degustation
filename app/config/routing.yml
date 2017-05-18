@@ -1,7 +1,19 @@
 degustation_blog:
-    resource: "@DegustationBlogBundle/Resources/config/routing.yml"
-    prefix:   /blog
+  resource: "@DegustationBlogBundle/Resources/config/routing.yml"
+  prefix:   /blog
+
+login:
+  path: /login
+  defaults:
+    _controller: DegustationUserBundle:Security:login
+
+login_check:
+  path: /login_check
+
+logout:
+  path: /logout
 
 app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+  resource: "@AppBundle/Controller/"
+  type:     annotation
+

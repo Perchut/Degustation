@@ -5,6 +5,8 @@ namespace Degustation\BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Degustation\BlogBundle\Entity\Article;
 use Degustation\BlogBundle\Form\ArticleType;
 
@@ -52,9 +54,11 @@ class ArticleController extends Controller
 		));
 	}
 
+	/**
+	 * @Security("has_role('ROLE_USER')")
+	 */
 	public function addAction(Request $request)
 	{
-
 		$article = new Article();
     	$form = $this->get('form.factory')->create(ArticleType::class, $article);
 
